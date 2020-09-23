@@ -1,0 +1,12 @@
+{
+  "name": "chainlinkContractDeploy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "conflux-truffle": "^0.0.8"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.0.10"
+  }
+}
