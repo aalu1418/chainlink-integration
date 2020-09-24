@@ -7,6 +7,7 @@
     "conflux-truffle": "^0.0.8"
   },
   "dependencies": {
-    "@chainlink/contracts": "^0.0.10"
+    "@chainlink/contracts": "^0.0.10",
+    "js-conflux-sdk": "^1.0.0-alpha.4"
   }
 }

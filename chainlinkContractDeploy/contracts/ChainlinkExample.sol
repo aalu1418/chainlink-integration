@@ -9,9 +9,9 @@ contract ChainlinkExample is ChainlinkClient {
   uint256 public currentPrice;
   address public owner;
 
-  constructor() public {
+  constructor(address _address) public {
     // Set the address for the LINK token for the network
-    setPublicChainlinkToken();
+    setChainlinkToken(_address);
     owner = msg.sender;
   }
 
