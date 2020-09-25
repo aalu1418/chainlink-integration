@@ -11,7 +11,7 @@ async function main() {
 
   const cfx = new Conflux({
     url: 'http://testnet-jsonrpc.conflux-chain.org:12537',
-    logger: console,
+    // logger: console,
   });
 
   // ================================ Account =================================
@@ -24,9 +24,8 @@ async function main() {
     address: "0x84806D7e51A716112dF70eBD737E4448644bb943"
   });
 
-  const tx = contract.requestEthereumPrice("0x87B883d578646d820762670615B74CEF1506d26C", Buffer.from('834b387479ca4b0c90d708335b8831fb'), 1);
-  const receipt = await account.sendTransaction(tx).executed();
-  console.log(receipt);
+  const price = await contract.currentPrice();
+  console.log("ETH price: ", price.toString());
 }
 
 main().catch(e => console.error(e));

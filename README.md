@@ -126,3 +126,47 @@ Summary
 > Total deployments:   4
 > Final cost:          0.10708078 CFX
 ```
+
+### Startup commands
+External Initiator:
+```
+./external-initiator "{\"name\":\"cfx-testnet\",\"type\":\"conflux\",\"url\":\"http://testnet-jsonrpc.conflux-chain.org:12537\"}" --chainlinkurl "http://localhost:6688/"
+```
+
+Chainlink Node:
+```
+cd ~/.chainlink-ropsten && docker run -p 6688:6688 -v ~/.chainlink-ropsten:/chainlink -it --env-file=.env smartcontract/chainlink local n
+```
+
+External Adapter:
+```
+node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
+```
+
+### Job Spec
+```
+{
+  "initiators": [
+    {
+      "type": "external",
+      "params": {
+        "name": "cfx",
+        "body": {
+          "endpoint": "cfx-testnet",
+          "addresses": ["0x87B883d578646d820762670615B74CEF1506d26C"]
+        }
+      }
+    }
+  ],
+  "tasks": [
+    {"type": "httpGet"},
+    {"type": "jsonParse"},
+    {"type": "multiply"},
+    {"type": "cfxTx"}
+  ]
+}
+```
+
+### Bridge Config
+Name: cfxTx  
+Address: http://172.17.0.1:3000
