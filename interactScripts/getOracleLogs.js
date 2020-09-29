@@ -21,7 +21,7 @@ async function main() {
   // create contract instance
   const contract = cfx.Contract({
     abi,
-    address: "0x87B883d578646d820762670615B74CEF1506d26C",
+    address: process.env.ORACLE,
   });
 
   // // get current number
@@ -38,7 +38,8 @@ async function main() {
     limit: 1,
     topics: [],
   });
-  console.log(logs);
+  console.log(logs[0]);
+  console.log(contract.abi.decodeLog(logs[0]));
 }
 
 main().catch((e) => console.error(e));

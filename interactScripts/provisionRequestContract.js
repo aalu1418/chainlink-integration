@@ -21,10 +21,10 @@ async function main() {
   // create contract instance
   const contract = cfx.Contract({
     abi,
-    address: "0x85d5d16a1418bcd4456F5842F9720dBb009104c6"
+    address: process.env.LINK
   });
 
-  const tx = contract.transfer("0x84806D7e51A716112dF70eBD737E4448644bb943", 100);
+  const tx = contract.transfer(process.env.CHAINLINK_EXAMPLE, 100);
   const receipt = account.sendTransaction(tx).executed();
   console.log(receipt);
 }

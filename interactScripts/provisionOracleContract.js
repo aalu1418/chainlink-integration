@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const { Conflux, util } = require('js-conflux-sdk');
-const { abi } = require('../chainlinkContractDeploy/build/contracts/LinkToken.json')
+const { abi } = require('../chainlinkContractDeploy/build/contracts/Oracle.json')
 require("dotenv").config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -11,7 +11,7 @@ async function main() {
 
   const cfx = new Conflux({
     url: 'http://testnet-jsonrpc.conflux-chain.org:12537',
-    // logger: console,
+    logger: console,
   });
 
   // ================================ Account =================================
@@ -21,14 +21,12 @@ async function main() {
   // create contract instance
   const contract = cfx.Contract({
     abi,
-    address: "0x85d5d16a1418bcd4456F5842F9720dBb009104c6"
+    address: process.env.ORACLE,
   });
 
-  const balance = await contract.balanceOf(account.address);
-  console.log("LINK Owner balance: ", balance.toString());
-
-  const balanceContract = await contract.balanceOf(process.env.CHAINLINK_EXAMPLE);
-  console.log("Trigger Contract balance: ", balanceContract.toString());
+  const tx = contract.setFulfillmentPermission("0x15fd1e4f13502b1a8be110f100ec001d0270552d", true);
+  const receipt = await account.sendTransaction(tx).executed();
+  console.log(receipt);
 }
 
 main().catch(e => console.error(e));

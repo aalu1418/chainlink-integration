@@ -21,7 +21,7 @@ async function main() {
   // create contract instance
   const contract = cfx.Contract({
     abi,
-    address: "0x84806D7e51A716112dF70eBD737E4448644bb943"
+    address: process.env.CHAINLINK_EXAMPLE
   });
 
   const price = await contract.currentPrice();
