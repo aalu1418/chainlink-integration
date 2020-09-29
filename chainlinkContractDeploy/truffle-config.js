@@ -43,7 +43,7 @@ module.exports = {
     // options below to some value.
     //
     development: {
-      host: "testnet-jsonrpc.conflux-chain.org", // Localhost (default: none)
+      host: "mainnet-jsonrpc.conflux-chain.org", // Localhost (default: none)
       port: 12537, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
       type: "conflux"
