@@ -20,6 +20,7 @@ Contracts:
 1. Deploy Oracle (needs LINK token address)
 1. Deploy Example (needs LINK token address)
 1. Provision Example contract with LINK tokens
+1. Set up fulfillment permissions
 1. Set up job specs in Chainlink node
 1. Trigger transaction in Example contract
 
