@@ -7,7 +7,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 async function main() {
   const cfx = new Conflux({
-    // url: 'http://mainnet-jsonrpc.conflux-chain.org:12537',
+    // url: 'http://main.confluxrpc.org',
     url: 'http://testnet-jsonrpc.conflux-chain.org:12537',
     defaultGasPrice: 100,
     defaultGas: 1000000,
