@@ -7,8 +7,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 async function main() {
   const cfx = new Conflux({
-    // url: 'http://main.confluxrpc.org',
-    url: 'http://testnet-jsonrpc.conflux-chain.org:12537',
+    url: 'http://test.confluxrpc.org',
     defaultGasPrice: 100,
     defaultGas: 1000000,
     // logger: console,
@@ -18,7 +17,7 @@ async function main() {
   // console.log(cfx.defaultGas); // 1000000
 
   // ================================ Account =================================
-  const account = cfx.Account({privateKey: PRIVATE_KEY}); // create account instance
+  const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
   console.log("Address: ", account.address); // 0x1bd9e9be525ab967e633bcdaeac8bd5723ed4d6b
 
   // ================================ Contract ================================

@@ -12,7 +12,7 @@ Contracts:
 
 ### Folders
 * `testTriggerContract`: simple contract that emits an event to trigger oracle
-* `chainlinkContractDeploy`: deploying contracts to local docker image using conflux-truffle (need to wait a few minutes for accounts to unlock)
+* `chainlinkContractDeploy`: deploying contracts to local docker image using conflux-truffle
 * `interactScripts`: scripts for interacting with deployed contracts on conflux network testnet
 
 ### Deployment Order
@@ -24,37 +24,27 @@ Contracts:
 1. Set up job specs in Chainlink node
 1. Trigger transaction in Example contract
 
-### Oceanus Deployment
+### Testnet Deployment
 ```
-Compiling your contracts...
-===========================
-> Compiling ./contracts/Oracle.sol
-> Everything is up to date, there is nothing to compile.
-> Artifacts written to /home/conflux/Documents/chainlink-integration/chainlinkContractDeploy/build/contracts
-> Compiled successfully using:
-   - solc: 0.6.6+commit.6c089d02.Emscripten.clang
-
-
-
 Starting migrations...
 ======================
-> Network name:    'development'
-> Network id:      10002
+> Network name:    'testnet'
+> Network id:      10001
 > Block gas limit: 30000000 (0x1c9c380)
 
 
 1_initial_migration.js
 ======================
 
-   Deploying 'Migrations'
+   Replacing 'Migrations'
    ----------------------
-   > transaction hash:    0x0e4b50625db255c5db8a7a35b14ecd61c2f439e589b28075f16ccc803e04d440
-   > Blocks: 14           Seconds: 13
-   > contract address:    0x837CbE135dA3eE5C66d66A660E998412048647Ae
-   > block number:        7964490
-   > block timestamp:     1601414553
+   > transaction hash:    0x9a1b2cea908eb39c135bf7cdb7caf64e9767ac2707df3cb276f2ee0729af7913
+   > Blocks: 16           Seconds: 8
+   > contract address:    0x8a241B50A4e3445f76E187e89c3cAaD7BB9B2943
+   > block number:        4133052
+   > block timestamp:     1606861681
    > account:             0x15fd1E4F13502b1a8BE110F100EC001d0270552d
-   > balance:             299.43335004749970516
+   > balance:             347.114640405570783506
    > gas used:            173751 (0x2a6b7)
    > gas price:           20 GDrip
    > value sent:          0 CFX
@@ -72,29 +62,29 @@ Starting migrations...
 
    Deploying 'LinkToken'
    ---------------------
-   > transaction hash:    0x3ff7efa19d740782506cc6c6551f57a08ade25cdc24a5433fe5ae6cc3b577d18
-   > Blocks: 10           Seconds: 9
-   > contract address:    0x86b147e80957A5f96D587a8b0ff0BAd59f7dEA53
-   > block number:        7964525
-   > block timestamp:     1601414600
+   > transaction hash:    0x6ac5f3a60f3d4b8cb39ffd26cd33b6cd52b62a2e81cb487126805868596ef791
+   > Blocks: 10           Seconds: 8
+   > contract address:    0x803204BCA4fB5a0aE45bfce47D86C9353752b703
+   > block number:        4133088
+   > block timestamp:     1606861705
    > account:             0x15fd1E4F13502b1a8BE110F100EC001d0270552d
-   > balance:             293.18188607999970516
+   > balance:             343.499640405570783506
    > gas used:            1681003 (0x19a66b)
    > gas price:           20 GDrip
    > value sent:          0 CFX
    > total cost:          0.03362006 CFX
 
-Link Token:  0x86b147e80957A5f96D587a8b0ff0BAd59f7dEA53
+Link Token:  0x803204BCA4fB5a0aE45bfce47D86C9353752b703
 
    Deploying 'Oracle'
    ------------------
-   > transaction hash:    0x87ecf79352cf4a7a5ea162f3bbbbbf6045b5b0e2f0a40e21989dd5a9df46a5b1
-   > Blocks: 16           Seconds: 13
-   > contract address:    0x8A9da32715742d23DE89CA7125d1DFB8414eE015
-   > block number:        7964546
-   > block timestamp:     1601414603
+   > transaction hash:    0xaacfa2f71ceacb20c016dec0b32b25abcc24d97fc0841c1904065583ed2f5e23
+   > Blocks: 11           Seconds: 8
+   > contract address:    0x8e98c9E82E1956fa132360F48E1c75a2DaB9a439
+   > block number:        4133107
+   > block timestamp:     1606861716
    > account:             0x15fd1E4F13502b1a8BE110F100EC001d0270552d
-   > balance:             285.62011893999970516
+   > balance:             339.192140405570783506
    > gas used:            2039728 (0x1f1fb0)
    > gas price:           20 GDrip
    > value sent:          0 CFX
@@ -103,35 +93,50 @@ Link Token:  0x86b147e80957A5f96D587a8b0ff0BAd59f7dEA53
 
    Deploying 'ChainlinkExample'
    ----------------------------
-   > transaction hash:    0x25e9dc207bb8205b4d95404c622a5dc81060dd07b43b6cba8746085df29e3fa1
-   > Blocks: 13           Seconds: 9
-   > contract address:    0x8627F9Ae0e8BAFcf9714365047fDf4f897290536
-   > block number:        7964566
-   > block timestamp:     1601414621
+   > transaction hash:    0x067a084833b4f11a98fe024bdac3932f455c6a8daacb7c9af2a91d69b3ac43da
+   > Blocks: 10           Seconds: 8
+   > contract address:    0x8D4931C7a274452d1E0aCA0BcB3886178dc379B2
+   > block number:        4133125
+   > block timestamp:     1606861729
    > account:             0x15fd1E4F13502b1a8BE110F100EC001d0270552d
-   > balance:             280.25366429999970516
+   > balance:             335.884640405570783506
    > gas used:            1459685 (0x1645e5)
    > gas price:           20 GDrip
    > value sent:          0 CFX
    > total cost:          0.0291937 CFX
 
 
+   Deploying 'FluxAggregator'
+   --------------------------
+   > transaction hash:    0xb5a3e8b3f9d8409ae9cd6aa190e5f0bec3688ffc8057198558c805b37edeb544
+   > Blocks: 11           Seconds: 8
+   > contract address:    0x841042eb024008e7A8Ae5277331d2858df4a9368
+   > block number:        4133142
+   > block timestamp:     1606861742
+   > account:             0x15fd1E4F13502b1a8BE110F100EC001d0270552d
+   > balance:             320.851035765570783506
+   > gas used:            7930232 (0x790178)
+   > gas price:           20 GDrip
+   > value sent:          0 CFX
+   > total cost:          0.15860464 CFX
+
+
    > Saving migration to chain.
    > Saving artifacts
    -------------------------------------
-   > Total cost:          0.10360832 CFX
+   > Total cost:          0.26221296 CFX
 
 
 Summary
 =======
-> Total deployments:   4
-> Final cost:          0.10708334 CFX
+> Total deployments:   5
+> Final cost:          0.26568798 CFX
 ```
 
 ### Startup commands
 External Initiator:
 ```
-./external-initiator "{\"name\":\"cfx-oceanus\",\"type\":\"conflux\",\"url\":\"http://mainnet-jsonrpc.conflux-chain.org:12537\"}" --chainlinkurl "http://localhost:6688/"
+./external-initiator "{\"name\":\"cfx-testnet\",\"type\":\"conflux\",\"url\":\"http://test.confluxrpc.org\"}" --chainlinkurl "http://localhost:6688/"
 ```
 
 Chainlink Node:
@@ -144,7 +149,7 @@ External Adapter:
 node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
 ```
 
-### Job Spec
+### Job Spec (Request + Fulfill Model)
 ```
 {
   "initiators": [

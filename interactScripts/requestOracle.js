@@ -1,7 +1,9 @@
 /* eslint-disable */
 
-const { Conflux, util } = require('js-conflux-sdk');
-const { abi } = require('../chainlinkContractDeploy/build/contracts/ChainlinkExample.json')
+const { Conflux, util } = require("js-conflux-sdk");
+const {
+  abi
+} = require("../chainlinkContractDeploy/build/contracts/ChainlinkExample.json");
 require("dotenv").config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -10,12 +12,12 @@ async function main() {
   // const defaultGasPrice = util.unit("GDrip", "Drip")(10)
 
   const cfx = new Conflux({
-    url: 'http://main.confluxrpc.org',
-    logger: console,
+    url: "http://main.confluxrpc.org",
+    logger: console
   });
 
   // ================================ Account =================================
-  const account = cfx.Account({privateKey: PRIVATE_KEY}); // create account instance
+  const account = cfx.Account({ privateKey: PRIVATE_KEY }); // create account instance
 
   // ================================ Contract ================================
   // create contract instance
@@ -24,8 +26,14 @@ async function main() {
     address: process.env.CHAINLINK_EXAMPLE
   });
 
-  const tx = contract.requestEthereumPrice(process.env.ORACLE, Buffer.from('b776a5eda42c41c796f3d16f32fbaa29'), 1);
-  const receipt = await account.sendTransaction(tx).executed();
+  const receipt = await contract
+    .requestEthereumPrice(
+      process.env.ORACLE,
+      Buffer.from("b776a5eda42c41c796f3d16f32fbaa29"),
+      1
+    )
+    .sendTransaction({ from: account })
+    .executed();
   console.log(receipt);
 }
 

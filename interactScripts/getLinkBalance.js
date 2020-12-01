@@ -10,12 +10,12 @@ async function main() {
   // const defaultGasPrice = util.unit("GDrip", "Drip")(10)
 
   const cfx = new Conflux({
-    url: 'http://main.confluxrpc.org',
+    url: 'http://test.confluxrpc.org',
     // logger: console,
   });
 
   // ================================ Account =================================
-  const account = cfx.Account({privateKey: PRIVATE_KEY}); // create account instance
+  const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
 
   // ================================ Contract ================================
   // create contract instance

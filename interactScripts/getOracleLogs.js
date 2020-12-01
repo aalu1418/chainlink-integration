@@ -9,12 +9,12 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 async function main() {
   const cfx = new Conflux({
     // url: 'http://main.confluxrpc.org',
-    url: 'http://main.confluxrpc.org',
+    url: 'http://test.confluxrpc.org',
     // logger: console,
   });
 
   // ================================ Account =================================
-  const account = cfx.Account({privateKey: PRIVATE_KEY}); // create account instance
+  const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
   console.log("Address: ", account.address); // 0x1bd9e9be525ab967e633bcdaeac8bd5723ed4d6b
 
   // ================================ Contract ================================
