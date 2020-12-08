@@ -15,7 +15,7 @@ Contracts:
 * `chainlinkContractDeploy`: deploying contracts to local docker image using conflux-truffle
 * `interactScripts`: scripts for interacting with deployed contracts on conflux network testnet
 
-### Deployment Order
+### Deployment Order (Fulfill/Request Model)
 1. Deploy LINK token
 1. Deploy Oracle (needs LINK token address)
 1. Deploy Example (needs LINK token address)
@@ -134,19 +134,24 @@ Summary
 ```
 
 ### Startup commands
-External Initiator:
+Conflux External Initiator:
 ```
 ./external-initiator "{\"name\":\"cfx-testnet\",\"type\":\"conflux\",\"url\":\"http://test.confluxrpc.org\"}" --chainlinkurl "http://localhost:6688/"
 ```
 
 Chainlink Node:
 ```
-cd ~/.chainlink-ropsten && docker run -p 6688:6688 -v ~/.chainlink-ropsten:/chainlink -it --env-file=.env smartcontract/chainlink local n
+cd ~/.chainlink-ropsten && docker run -p 6688:6688 -v ~/.chainlink-ropsten:/chainlink -it --env-file=.env smartcontract/chainlink:0.9.6 local n
 ```
 
-External Adapter:
+Conflux External Adapter:
 ```
 node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
+```
+
+Coingecko External Adapter:
+```
+yarn server
 ```
 
 ### Job Spec (Request + Fulfill Model)
@@ -158,7 +163,7 @@ node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
       "params": {
         "name": "cfx",
         "body": {
-          "endpoint": "cfx-oceanus",
+          "endpoint": "cfx-testnet",
           "addresses": ["0x8A9da32715742d23DE89CA7125d1DFB8414eE015"]
         }
       }
@@ -173,6 +178,10 @@ node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
 }
 ```
 
-### Bridge Config
+### Conflux Bridge Config
 Name: cfxTx  
 Address: http://172.17.0.1:3000
+
+### Coingecko Bridge Config
+Adapter: https://github.com/smartcontractkit/external-adapters-js/tree/master/coingecko
+Address: http://172.17.0.1:8080

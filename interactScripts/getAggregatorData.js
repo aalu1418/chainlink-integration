@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const { Conflux, util } = require('js-conflux-sdk');
-const { abi } = require('../chainlinkContractDeploy/build/contracts/LinkToken.json')
+const { abi } = require('../chainlinkContractDeploy/build/contracts/FluxAggregator.json')
 require("dotenv").config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -21,17 +21,20 @@ async function main() {
   // create contract instance
   const contract = cfx.Contract({
     abi,
-    address: process.env.LINK
+    address: process.env.FLUXAGGREGATOR
   });
 
-  const balance = await contract.balanceOf(account.address);
-  console.log("LINK Owner balance: ", balance.toString());
+  let data = await contract.latestRound();
+  console.log("Latest Round:", data.toString());
 
-  const balanceContract = await contract.balanceOf(process.env.CHAINLINK_EXAMPLE);
-  console.log("Trigger Contract balance: ", balanceContract.toString());
+  data = await contract.oracleCount();
+  console.log("Oracle Count:", data.toString());
 
-  const fluxAggregator = await contract.balanceOf(process.env.FLUXAGGREGATOR);
-  console.log("FluxAggregator balance: ", fluxAggregator.toString());
+  data = await contract.getOracles();
+  console.log("Oracles", data);
+
+  data = await contract.oracleRoundState(account.address, 1)
+  console.log("Round state", data);
 }
 
 main().catch(e => console.error(e));

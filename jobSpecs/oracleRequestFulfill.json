@@ -1,0 +1,20 @@
+{
+  "initiators": [
+    {
+      "type": "external",
+      "params": {
+        "name": "cfx",
+        "body": {
+          "endpoint": "cfx-testnet",
+          "addresses": ["0x8A9da32715742d23DE89CA7125d1DFB8414eE015"]
+        }
+      }
+    }
+  ],
+  "tasks": [
+    {"type": "httpGet"},
+    {"type": "jsonParse"},
+    {"type": "multiply"},
+    {"type": "cfxTx"}
+  ]
+}

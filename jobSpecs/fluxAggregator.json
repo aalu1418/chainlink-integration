@@ -1,0 +1,33 @@
+{
+  "initiators": [
+    {
+      "type": "fluxmonitor",
+      "params": {
+        "address": "0x841042eb024008e7A8Ae5277331d2858df4a9368",
+        "requestData": {
+          "data": {
+            "coin": "ETH",
+            "market": "USD"
+          }
+        },
+        "feeds": [{ "bridge": "coingecko" }],
+        "precision": 2,
+        "threshold": 5,
+        "absoluteThreshold": 0,
+        "idleTimer": {
+          "disabled": true
+        },
+        "pollTimer": {
+          "period": "15s"
+        }
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "type": "noop"
+    }
+  ],
+  "startAt": null,
+  "endAt": null
+}
