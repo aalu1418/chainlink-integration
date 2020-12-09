@@ -11,6 +11,13 @@
         "from": "ETH",
         "to": "USD"
       }
-    }
+    },
+    {
+      "type": "multiply",
+      "params": {
+        "times": 100
+      }
+    },
+    { "type": "cfxTx" }
   ]
 }

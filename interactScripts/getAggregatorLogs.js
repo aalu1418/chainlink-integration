@@ -35,11 +35,13 @@ async function main() {
     address: contract.address,
     fromEpoch: epochNum-10000,
     toEpoch: "latest_state",
-    limit: 1,
+    limit: 5,
     topics: [],
   });
-  console.log(logs[0]);
-  console.log(contract.abi.decodeLog(logs[0]));
+
+  logs.forEach(log => {
+    console.log(contract.abi.decodeLog(log));
+  })
 }
 
 main().catch((e) => console.error(e));

@@ -12,10 +12,10 @@
         },
         "feeds": [{ "bridge": "coingecko" }],
         "precision": 2,
-        "threshold": 5,
+        "threshold": 0.1,
         "absoluteThreshold": 0,
         "idleTimer": {
-          "disabled": true
+          "duration": "0h1m0s"
         },
         "pollTimer": {
           "period": "15s"
@@ -25,9 +25,10 @@
   ],
   "tasks": [
     {
-      "type": "noop"
+      "type": "cfxTx",
+      "params": {
+        "times": 100
+      }
     }
-  ],
-  "startAt": null,
-  "endAt": null
+  ]
 }

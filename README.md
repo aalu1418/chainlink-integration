@@ -9,20 +9,34 @@ Contracts:
 * Link Token: https://github.com/smartcontractkit/LinkToken
 * Chainlink Example: https://gist.github.com/samsondav/4a0ca9a20afcd2d3e670eeb87780f23a
 * Oracle Contract: https://gist.github.com/samsondav/4cc6c6a54c341daf3f9a50957a241a9e
+* FluxAggregator: https://github.com/smartcontractkit/chainlink/blob/develop/evm-contracts/src/v0.6/FluxAggregator.sol
 
 ### Folders
 * `testTriggerContract`: simple contract that emits an event to trigger oracle
 * `chainlinkContractDeploy`: deploying contracts to local docker image using conflux-truffle
 * `interactScripts`: scripts for interacting with deployed contracts on conflux network testnet
 
-### Deployment Order (Fulfill/Request Model)
+## Deployment Order
+
+### Contract Deployment Order (Fulfill/Request Model)
 1. Deploy LINK token
 1. Deploy Oracle (needs LINK token address)
 1. Deploy Example (needs LINK token address)
-1. Provision Example contract with LINK tokens
-1. Set up fulfillment permissions
-1. Set up job specs in Chainlink node
-1. Trigger transaction in Example contract
+1. Deploy FluxAggregator (needs LINK token address + price feed parameters)
+
+### Deploying the Fulfill/Request Model
+1. Set up the Chainlink node, external initiator, and external adapter
+1. Provision Example contract with LINK tokens (`provisionRequestContract.js`)
+1. Set up fulfillment permissions (`provisionOracleContract.js`)
+1. Set up job specs in Chainlink node [Link](./jobSpecs/oracleRequestFulfill.json)
+1. Trigger transaction in Example contract (`requestOracle.js`)
+
+### Deploying the Price Feed Model
+1. Set up the Chainlink node, ETH to CFX relay, Coingecko adapter, and external adapter
+1. Provision the Flux Aggregator with the corresponding addresses (`provisionFluxAggregator.js`)
+   * Requires giving permission to Chainlink node address + adapter address (to allow checking + submitting)
+1. Set up job specs in Chainlink node [Link](./jobSpecs/fluxAggregator.json)
+1. Trigger a round using `triggerFluxAggregator.js` (**still working on automatically triggering new rounds**)
 
 ### Testnet Deployment
 ```
@@ -133,55 +147,69 @@ Summary
 > Final cost:          0.26568798 CFX
 ```
 
-### Startup commands
-Conflux External Initiator:
+## Components
+### Conflux External Initiator
+Used in the Fulfill/Request model
 ```
 ./external-initiator "{\"name\":\"cfx-testnet\",\"type\":\"conflux\",\"url\":\"http://test.confluxrpc.org\"}" --chainlinkurl "http://localhost:6688/"
 ```
 
-Chainlink Node:
+### Chainlink Node
 ```
 cd ~/.chainlink-ropsten && docker run -p 6688:6688 -v ~/.chainlink-ropsten:/chainlink -it --env-file=.env smartcontract/chainlink:0.9.6 local n
 ```
 
-Conflux External Adapter:
+`.env` file for fulfill/request
+```
+ROOT=/chainlink
+LOG_LEVEL=debug
+ETH_CHAIN_ID=3
+MIN_OUTGOING_CONFIRMATIONS=2
+LINK_CONTRACT_ADDRESS=0x803204BCA4fB5a0aE45bfce47D86C9353752b703
+CHAINLINK_TLS_PORT=0
+SECURE_COOKIES=false
+ALLOW_ORIGINS=*
+DATABASE_TIMEOUT=0
+DATABASE_URL=<insert db url>
+ETH_DISABLED=true
+FEATURE_EXTERNAL_INITIATORS=true
+CHAINLINK_DEV=true
+```
+
+
+`.env` file for price feeds
+```
+ROOT=/chainlink
+LOG_LEVEL=debug
+ETH_CHAIN_ID=3
+MIN_OUTGOING_CONFIRMATIONS=2
+LINK_CONTRACT_ADDRESS=0x803204BCA4fB5a0aE45bfce47D86C9353752b703
+CHAINLINK_TLS_PORT=0
+SECURE_COOKIES=false
+ALLOW_ORIGINS=*
+DATABASE_TIMEOUT=0
+DATABASE_URL=<insert db url>
+ETH_DISABLED=false
+FEATURE_EXTERNAL_INITIATORS=true
+CHAINLINK_DEV=true
+ETH_URL=ws://172.17.0.1:3000
+MINIMUM_CONTRACT_PAYMENT=1
+```
+
+### Conflux External Adapter
 ```
 node -e "require(\"dotenv\").config() && require(\"./index.js\").server()"
 ```
+Name: cfxTx  
+Address: http://172.17.0.1:5000
 
-Coingecko External Adapter:
+### [ETH => CFX Relay](https://github.com/Conflux-Network-Global/eth2cfx-relay)
+Relay used to convert ETH API calls to CFX API calls (used in the price feed configuration)
+
+### [Coingecko Adapter](https://github.com/smartcontractkit/external-adapters-js/tree/master/coingecko)
+Used in the FluxAggregator + Price Feed Configuration
 ```
 yarn server
 ```
-
-### Job Spec (Request + Fulfill Model)
-```
-{
-  "initiators": [
-    {
-      "type": "external",
-      "params": {
-        "name": "cfx",
-        "body": {
-          "endpoint": "cfx-testnet",
-          "addresses": ["0x8A9da32715742d23DE89CA7125d1DFB8414eE015"]
-        }
-      }
-    }
-  ],
-  "tasks": [
-    {"type": "httpGet"},
-    {"type": "jsonParse"},
-    {"type": "multiply"},
-    {"type": "cfxTx"}
-  ]
-}
-```
-
-### Conflux Bridge Config
-Name: cfxTx  
-Address: http://172.17.0.1:3000
-
-### Coingecko Bridge Config
 Adapter: https://github.com/smartcontractkit/external-adapters-js/tree/master/coingecko
 Address: http://172.17.0.1:8080

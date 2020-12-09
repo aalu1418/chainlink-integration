@@ -24,8 +24,8 @@ async function main() {
     address: process.env.FLUXAGGREGATOR
   });
 
-  let data = await contract.latestRound();
-  console.log("Latest Round:", data.toString());
+  let data = await contract.latestRoundData();
+  console.log("Latest Round:", data);
 
   data = await contract.oracleCount();
   console.log("Oracle Count:", data.toString());
@@ -33,8 +33,15 @@ async function main() {
   data = await contract.getOracles();
   console.log("Oracles", data);
 
-  data = await contract.oracleRoundState(account.address, 1)
+  data = await contract.oracleRoundState("0x9E3b06e9ACE5AEdf3D17B4CCd0dA57Dd0c811559", 2)
   console.log("Round state", data);
+
+  data = await contract.latestAnswer();
+  console.log("Latest answer", data);
+
+  data = await contract.latestTimestamp();
+  console.log("Latest timestamp", data);
+
 }
 
 main().catch(e => console.error(e));
