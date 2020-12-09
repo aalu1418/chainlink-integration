@@ -36,7 +36,10 @@ Contracts:
 1. Provision the Flux Aggregator with the corresponding addresses (`provisionFluxAggregator.js`)
    * Requires giving permission to Chainlink node address + adapter address (to allow checking + submitting)
 1. Set up job specs in Chainlink node [Link](./jobSpecs/fluxAggregator.json)
-1. Trigger a round using `triggerFluxAggregator.js` (**still working on automatically triggering new rounds**)
+1. Trigger a round using `triggerFluxAggregator.js`
+
+Note:
+* New rounds are triggered when the node (using it's own address) detects that the previous round has been fulfilled. This is tricky because the adapter uses a different address to fulfill which the node does not log as its own transaction. In order to automatically trigger new rounds, the maximum submissions must be set low enough for rounds to be completed easily. Therefore, for a single price feed oracle, there will be two addresses (one for reading contract state, one for submitting), but a min and max submission of 1 before the next round is triggered. This allows the node (using it's own address) to see that a round has been completed. If the max was set to 2, the node (by itself) would never trigger a new round because when it checks the contract it would see that its address can still submit. However, it internally has a record that a job run was already completed for that round. Consequently the round number never updates when it checks and it won't trigger new submissions unless another oracle completes the round.
 
 ### Testnet Deployment
 ```

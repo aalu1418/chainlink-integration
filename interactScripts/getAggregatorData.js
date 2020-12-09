@@ -33,7 +33,7 @@ async function main() {
   data = await contract.getOracles();
   console.log("Oracles", data);
 
-  data = await contract.oracleRoundState("0x9E3b06e9ACE5AEdf3D17B4CCd0dA57Dd0c811559", 2)
+  data = await contract.oracleRoundState("0x363775370436EBbe37B090e1BC95cf68839e4Bb9", 0)
   console.log("Round state", data);
 
   data = await contract.latestAnswer();

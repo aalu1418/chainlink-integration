@@ -21,50 +21,24 @@ async function main() {
   const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
 
   // ================================ Contract ================================
-  // create contract instance
-  const contract = cfx.Contract({
-    abi,
-    address: process.env.LINK
-  });
-
-  //send link tokens
-  let receipt = await contract
-    .transfer(process.env.FLUXAGGREGATOR, Drip.fromCFX(1))
-    .sendTransaction({ from: account })
-    .executed();
-  console.log(receipt);
 
   const aggregator = cfx.Contract({
     abi: fluxAggregator.abi,
     address: process.env.FLUXAGGREGATOR
   });
 
-  //trigger balance check
-  await aggregator
-    .updateAvailableFunds()
-    .sendTransaction({ from: account })
-    .executed();
-
-  //need to setup two addresses (chainlink node address to trigger rounds + adapter address for fulfillment)
-  // min + max set = 1 because node won't trigger because it is associated with two different addresses (must be set low)
-  receipt = await aggregator
-    .changeOracles(
-      [],
-      ["0x363775370436EBbe37B090e1BC95cf68839e4Bb9", account.address],
-      [account.address, account.address],
+  //updating aggregator parameters
+  let receipt = await aggregator
+    .updateFutureRounds(
+      100,
       1,
       1,
+      0,
       0
     )
     .sendTransaction({ from: account })
     .executed();
   console.log(receipt);
-
-  // provision requester address
-  await aggregator
-    .setRequesterPermissions(account.address, true, 0)
-    .sendTransaction({ from: account })
-    .executed();
 
   //display available tokens
   const funds = await aggregator.availableFunds();
