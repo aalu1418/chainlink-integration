@@ -10,12 +10,12 @@ async function main() {
   // const defaultGasPrice = util.unit("GDrip", "Drip")(10)
 
   const cfx = new Conflux({
-    url: 'http://main.confluxrpc.org',
+    url: 'http://test.confluxrpc.org',
     // logger: console,
   });
 
   // ================================ Account =================================
-  const account = cfx.Account({privateKey: PRIVATE_KEY}); // create account instance
+  const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
 
   // ================================ Contract ================================
   // create contract instance
@@ -29,6 +29,9 @@ async function main() {
 
   const balanceContract = await contract.balanceOf(process.env.CHAINLINK_EXAMPLE);
   console.log("Trigger Contract balance: ", balanceContract.toString());
+
+  const fluxAggregator = await contract.balanceOf(process.env.FLUXAGGREGATOR);
+  console.log("FluxAggregator balance: ", fluxAggregator.toString());
 }
 
 main().catch(e => console.error(e));
