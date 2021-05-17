@@ -7,17 +7,18 @@ const {
 require("dotenv").config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const JOB_ID = process.env.JOB_ID;
 
 async function main() {
   // const defaultGasPrice = util.unit("GDrip", "Drip")(10)
 
   const cfx = new Conflux({
-    url: "http://main.confluxrpc.org",
+    url: "http://test.confluxrpc.org",
     logger: console
   });
 
   // ================================ Account =================================
-  const account = cfx.Account({ privateKey: PRIVATE_KEY }); // create account instance
+  const account = cfx.wallet.addPrivateKey(PRIVATE_KEY).address; // create account instance
 
   // ================================ Contract ================================
   // create contract instance
@@ -29,7 +30,7 @@ async function main() {
   const receipt = await contract
     .requestEthereumPrice(
       process.env.ORACLE,
-      Buffer.from("b776a5eda42c41c796f3d16f32fbaa29"),
+      Buffer.from(JOB_ID),
       1
     )
     .sendTransaction({ from: account })
